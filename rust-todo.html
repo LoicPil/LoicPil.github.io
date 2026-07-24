@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI To-Do (Rust) — Loïc Pilette</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Accueil</a>
+      <a href="parcours.html">Parcours</a>
+      <a href="projets.html">Projets</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>CLI To-Do List — Rust</h1>
+    <p class="subtitle" style="text-align:left;">
+      <!-- TODO: adapte cette intro à ton projet réel -->
+      Une application en ligne de commande développée en apprenant Rust,
+      en suivant le livre officiel "The Rust Programming Language".
+    </p>
+
+    <h2>Aperçu</h2>
+    <p>
+      <!-- TODO: décris en 2-3 phrases l'objectif du projet et ce que tu as appris -->
+      Ce projet m'a permis de pratiquer la gestion de la mémoire, le système de types
+      de Rust (ownership, borrowing), ainsi que la persistance de données simples
+      (lecture/écriture de fichiers). Le développement a suivi un workflow Git avec
+      des branches de fonctionnalités (feature branches).
+    </p>
+
+    <h2>Fonctionnalités</h2>
+    <ul>
+      <li><!-- TODO: liste les commandes réelles de ton CLI --> Ajouter une tâche</li>
+      <li>Lister les tâches en cours</li>
+      <li>Marquer une tâche comme terminée</li>
+      <li><!-- TODO: ajoute/retire selon ce que fait vraiment ton programme --> Sauvegarde persistante dans un fichier local</li>
+    </ul>
+
+    <h2>Stack technique</h2>
+    <ul>
+      <li>Rust — langage principal</li>
+      <li>Git — versionning avec branches de fonctionnalités</li>
+      <li><!-- TODO: ajoute les crates réellement utilisées, ex: clap, serde, etc. --></li>
+    </ul>
+
+    <div style="margin-top: 1.5rem;">
+      <!-- TODO: remplace par le lien réel vers ton repo GitHub -->
+      <a href="https://github.com/LoicPil" class="card-link">Voir le code sur GitHub →</a>
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>

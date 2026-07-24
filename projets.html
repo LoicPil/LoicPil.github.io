@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projets — Loïc Pilette</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Accueil</a>
+      <a href="parcours.html">Parcours</a>
+      <a href="projets.html" class="active">Projets</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Projets</h1>
+
+    <div class="project">
+      <h3>Site web Ascalon HC Mons</h3>
+      <p>
+        <!-- TODO: décris en 1-2 phrases ce que fait le site, les défis techniques -->
+        Refonte du site du club de hockey Ascalon HC Mons : page unique HTML/CSS/JS,
+        navigation responsive, intégration Twizzit et Hockey Belgium.
+      </p>
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
+      <div style="margin-top: 0.6rem;">
+        <a href="https://ascalon.be" class="card-link">Voir le site →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>CLI To-Do List en Rust</h3>
+      <p>
+        <!-- TODO: mentionne ce que tu as appris, les fonctionnalités -->
+        Application en ligne de commande développée en suivant "The Rust Programming
+        Language", avec gestion Git par branches de fonctionnalités.
+      </p>
+      <span class="tag">Rust</span>
+      <span class="tag">CLI</span>
+      <div style="margin-top: 0.6rem;">
+        <a href="rust-todo.html" class="card-link">Voir la page projet →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>Priority Search Tree (Java)</h3>
+      <p>
+        <!-- TODO: précise le contexte (cours, objectif de la structure de données) -->
+        Implémentation d'un arbre de recherche prioritaire, documentée avec Javadoc.
+      </p>
+      <span class="tag">Java</span>
+      <span class="tag">Structures de données</span>
+      <div style="margin-top: 0.6rem;">
+        <a href="https://github.com/LoicPil" class="card-link">Voir sur GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>Serveur personnel (Raspberry Pi 5)</h3>
+      <p>
+        <!-- TODO: ajoute ce qui te semble intéressant à partager (sans infos sensibles !) -->
+        NAS personnel sous OpenMediaVault avec Portainer, Immich, dashboard Homepage
+        et VPN WireGuard.
+      </p>
+      <span class="tag">Linux</span>
+      <span class="tag">Self-hosting</span>
+    </div>
+
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>

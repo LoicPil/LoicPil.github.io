@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Loïc Pilette</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Accueil</a>
+      <a href="parcours.html">Parcours</a>
+      <a href="projets.html">Projets</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </div>
+
+  <div class="content" style="text-align:center;">
+    <h1>Contact</h1>
+    <p class="subtitle">N'hésite pas à me contacter via l'un de ces canaux :</p>
+
+    <div class="links" style="margin-top: 1.5rem;">
+      <a href="mailto:piletteloic@gmail.com">Email</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=piletteloic@gmail.com">Gmail</a>
+      <a href="https://www.linkedin.com/in/loic-pilette">LinkedIn</a>
+      <a href="https://github.com/LoicPil">GitHub</a>
+    </div>
+
+    <!-- TODO: si un jour tu veux un vrai formulaire de contact, il faut un service
+         backend (GitHub Pages ne supporte pas PHP/serveur) : par exemple Formspree
+         (gratuit, https://formspree.io) qui envoie le formulaire vers ton email. -->
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>
