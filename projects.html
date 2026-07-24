@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Loïc Pilette</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html" class="active">Projects</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Projects</h1>
+
+    <div class="project">
+      <h3>CLI To-Do List in Rust</h3>
+      <p>
+        <!-- TODO: mention what you learned, the features -->
+        A command-line application built while learning Rust, following
+        "The Rust Programming Language", using Git with feature branches.
+      </p>
+      <span class="tag">Rust</span>
+      <span class="tag">CLI</span>
+      <div style="margin-top: 0.6rem;">
+        <a href="rust-todo.html" class="card-link">View project page →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>Priority Search Tree (Java)</h3>
+      <p>
+        <!-- TODO: specify the context (course, purpose of the data structure) -->
+        Implementation of a priority search tree, documented with Javadoc.
+      </p>
+      <span class="tag">Java</span>
+      <span class="tag">Data structures</span>
+      <div style="margin-top: 0.6rem;">
+        <a href="https://github.com/LoicPil" class="card-link">View on GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>Personal server (Raspberry Pi 5)</h3>
+      <p>
+        <!-- TODO: add whatever seems worth sharing (no sensitive info!) -->
+        Personal NAS running OpenMediaVault with Portainer, Immich, a Homepage
+        dashboard, and a WireGuard VPN.
+      </p>
+      <span class="tag">Linux</span>
+      <span class="tag">Self-hosting</span>
+    </div>
+
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>

@@ -1,5 +1,12 @@
-// Gère l'affichage du menu de navigation sur mobile (bouton "☰")
+// Handles the mobile nav menu toggle and auto-closes it after a link is clicked
 function toggleNav() {
-  const links = document.getElementById('navLinks');
-  links.classList.toggle('open');
+  document.getElementById('navLinks').classList.toggle('open');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+});

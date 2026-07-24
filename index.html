@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,23 +11,34 @@
   <div class="navbar">
     <button class="nav-toggle" onclick="toggleNav()">☰</button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html" class="active">Accueil</a>
-      <a href="parcours.html">Parcours</a>
-      <a href="projets.html">Projets</a>
-      <a href="contact.html">Contact</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
     </div>
   </div>
 
   <div class="card">
     <h1>Loïc Pilette</h1>
-    <p class="subtitle">Étudiant en mathématiques — UMons</p>
+    <p class="subtitle">Mathematics graduate — University of Mons (UMons)</p>
+
     <div class="links">
       <a href="https://github.com/LoicPil">GitHub</a>
       <a href="https://www.linkedin.com/in/loic-pilette">LinkedIn</a>
-      <a href="mailto:piletteloic@gmail.com">Contact</a>
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=piletteloic@gmail.com">Gmail</a>
+      <a href="mailto:piletteloic@gmail.com" class="btn-primary">Email me</a>
     </div>
-    <footer>Site en construction 🚧</footer>
+
+    <hr class="divider">
+
+    <p style="text-align:left;">
+      <!-- TODO: adapt this short intro paragraph to your liking -->
+      I'm interested in AI, deep learning, and low-level programming.
+      Alongside my mathematics coursework, I've been learning Rust and
+      exploring topics from differential geometry to measure theory.
+      I also work as a field hockey referee and youth mentor with
+      Hockey Belgium.
+    </p>
+
+    <footer>Site under construction 🚧</footer>
   </div>
 
   <script src="nav.js"></script>
