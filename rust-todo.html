@@ -4,56 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CLI To-Do (Rust) — Loïc Pilette</title>
+  <meta name="description" content="A command-line to-do list app built in Rust while working through The Rust Programming Language, with HashMap-based storage and custom error handling.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="navbar">
-    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+  <nav class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="projects.html">Projects</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="content">
+  <main class="content">
     <h1>CLI To-Do List — Rust</h1>
     <p class="subtitle" style="text-align:left;">
-      <!-- TODO: adapt this intro to your actual project -->
-      A command-line application built while learning Rust, following
-      the official "The Rust Programming Language" book.
+      A command-line to-do list built while learning Rust chapter by chapter
+      through "The Rust Programming Language" (the "Rust Book").
     </p>
 
     <h2>Overview</h2>
     <p>
-      <!-- TODO: describe in 2-3 sentences the goal of the project and what you learned -->
-      This project let me practice Rust's memory model and type system
-      (ownership, borrowing), as well as simple data persistence (reading
-      and writing files). Development followed a Git workflow with
-      feature branches.
+      This is my main Rust learning project, extended progressively as I
+      work through the book: structs and ownership first, then enums and
+      pattern matching, modules, collections, and idiomatic error handling
+      with <code>Result</code>. Tasks are stored in a <code>HashMap</code>
+      keyed by a dedicated auto-incrementing ID (kept stable across
+      deletions, unlike indexing into a <code>Vec</code>), and invalid
+      commands or missing IDs are handled through a custom
+      <code>TodoError</code> type rather than panicking. Development follows
+      a Git workflow with feature branches, conventional commits, and a
+      changelog.
     </p>
 
     <h2>Features</h2>
     <ul>
-      <li><!-- TODO: list the actual commands of your CLI --> Add a task</li>
-      <li>List pending tasks</li>
-      <li>Mark a task as done</li>
-      <li><!-- TODO: add/remove based on what your program actually does --> Persistent storage in a local file</li>
+      <li>Add a task</li>
+      <li>List all tasks, or filter by status (Todo / In Progress / Done)</li>
+      <li>Mark a task as in progress or done</li>
+      <li>Remove a task</li>
+      <li>Stable task IDs that persist correctly across deletions</li>
+      <li>Interactive command-line loop (REPL-style)</li>
     </ul>
 
     <h2>Tech stack</h2>
     <ul>
-      <li>Rust — main language</li>
-      <li>Git — version control with feature branches</li>
-      <li><!-- TODO: add the crates you actually used, e.g. clap, serde, etc. --></li>
+      <li>Rust — standard library only so far (no external crates yet)</li>
+      <li><code>HashMap&lt;u32, Task&gt;</code> for O(1) lookup and removal by ID</li>
+      <li>Custom error handling via a <code>TodoError</code> enum and <code>Result</code></li>
+      <li>Git — feature branches, conventional commits, Keep a Changelog format</li>
     </ul>
 
+    <h2>What's next</h2>
+    <p>
+      Currently working through automated testing (unit tests for the core
+      <code>add</code>/<code>complete</code>/<code>remove</code>/filter
+      behavior), with persistent JSON storage and a rewrite of the filtering
+      logic using iterators and closures planned for later chapters.
+    </p>
+
     <div style="margin-top: 1.5rem;">
-      <!-- TODO: replace with the actual link to your GitHub repo -->
-      <a href="https://github.com/LoicPil" class="card-link">View code on GitHub →</a>
+      <a href="https://github.com/LoicPil/rust-todo-cli" class="card-link">View code on GitHub →</a>
     </div>
-  </div>
+  </main>
 
   <script src="nav.js"></script>
 </body>

@@ -4,30 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Loïc Pilette</title>
+  <meta name="description" content="About Loïc Pilette: mathematics background, academic tutoring experience, and field hockey refereeing with Hockey Belgium.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="navbar">
-    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+  <nav class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html" class="active" aria-current="page">About</a>
       <a href="projects.html">Projects</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="content">
+  <main class="content">
     <h1>About</h1>
 
     <h2>Education</h2>
     <ul>
       <li>
-        <!-- TODO: describe your degree, specialization, chosen options -->
         Bachelor's degree in Mathematics — University of Mons (UMons)
+        <!-- TODO: add graduation year / current status (e.g. "graduating June 2026, starting Master's in ...") -->
       </li>
       <li>
-        <!-- TODO: mention standout courses or future direction -->
         Coursework: complex analysis, differential geometry, measure theory, probability, mathematical logic
       </li>
     </ul>
@@ -35,29 +35,29 @@
     <h2>Academic experience</h2>
     <ul>
       <li>
-        <!-- TODO: add dates and specifics of your role -->
         Academic tutor at the Faculty of Sciences (BAC1/BAC2 mathematics, Python/Java programming)
+        <!-- TODO: add dates and a one-line description of what tutoring involved -->
       </li>
       <li>
-        <!-- TODO: add a sentence about what this involves -->
         Student assistant for Mme Stéphanie Bridoux (elementary mathematics and complex numbers)
+        <!-- TODO: add dates and a short line on responsibilities -->
       </li>
     </ul>
 
     <h2>Field hockey</h2>
     <ul>
       <li>
-        <!-- TODO: add how long you've been refereeing, level reached -->
         National referee — Hockey Belgium (Outdoor/Indoor: U16, ASEUS, Division 1 Women)
+        <!-- TODO: add how many years refereeing and any progression -->
       </li>
       <li>Player at Ascalon HC Mons (ASCA)</li>
     </ul>
 
     <p style="margin-top: 2rem; color: #8b949e; font-size: 0.9rem;">
-      <!-- TODO: link to a PDF resume/CV here if you have one -->
+      <!-- TODO: link directly to a PDF once you have one, e.g. <a href="cv.pdf">Download my CV</a> -->
       📄 A full CV is available on request.
     </p>
-  </div>
+  </main>
 
   <script src="nav.js"></script>
 </body>

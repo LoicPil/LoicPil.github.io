@@ -4,31 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Loïc Pilette</title>
+  <meta name="description" content="Selected projects by Loïc Pilette: a Rust CLI to-do app, a Java priority search tree, and a self-hosted Raspberry Pi server.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="navbar">
-    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+  <nav class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a href="projects.html" class="active">Projects</a>
+      <a href="projects.html" class="active" aria-current="page">Projects</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="content">
+  <main class="content">
     <h1>Projects</h1>
 
     <div class="project">
       <h3>CLI To-Do List in Rust</h3>
       <p>
-        <!-- TODO: mention what you learned, the features -->
-        A command-line application built while learning Rust, following
-        "The Rust Programming Language", using Git with feature branches.
+        A command-line to-do list built from scratch while working through
+        "The Rust Programming Language" chapter by chapter — from basic
+        structs and ownership up through enums, modules, collections, error
+        handling, and traits. Tasks are stored in a <code>HashMap</code> keyed
+        by a stable ID, with custom error types (<code>Result</code>-based,
+        no panics on invalid input) and a proper Display implementation for
+        clean output.
       </p>
       <span class="tag">Rust</span>
       <span class="tag">CLI</span>
+      <span class="tag">Error handling</span>
       <div style="margin-top: 0.6rem;">
         <a href="rust-todo.html" class="card-link">View project page →</a>
       </div>
@@ -37,8 +43,9 @@
     <div class="project">
       <h3>Priority Search Tree (Java)</h3>
       <p>
-        <!-- TODO: specify the context (course, purpose of the data structure) -->
-        Implementation of a priority search tree, documented with Javadoc.
+        Java implementation of a priority search tree for windowing queries
+        over horizontal and vertical segments, built for the Data Structures
+        II course at UMons. Included a written report and an oral defense.
       </p>
       <span class="tag">Java</span>
       <span class="tag">Data structures</span>
@@ -50,15 +57,15 @@
     <div class="project">
       <h3>Personal server (Raspberry Pi 5)</h3>
       <p>
-        <!-- TODO: add whatever seems worth sharing (no sensitive info!) -->
-        Personal NAS running OpenMediaVault with Portainer, Immich, a Homepage
-        dashboard, and a WireGuard VPN.
+        Self-hosted NAS on a Raspberry Pi 5 (8GB RAM) with a 2TB SSD, running
+        OpenMediaVault for storage management, Immich for photo backup, and a
+        WireGuard VPN for secure remote access.
       </p>
       <span class="tag">Linux</span>
       <span class="tag">Self-hosting</span>
     </div>
 
-  </div>
+  </main>
 
   <script src="nav.js"></script>
 </body>
