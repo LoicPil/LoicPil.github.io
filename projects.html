@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Loïc Pilette</title>
-  <meta name="description" content="Selected projects by Loïc Pilette: a Rust CLI to-do app, a Java priority search tree, and a self-hosted Raspberry Pi server.">
+  <meta name="description" content="Selected projects by Loïc Pilette: a Rust library for certified numerical integration and ODE enclosures, a Rust CLI to-do app, a Java priority search tree, and a self-hosted Raspberry Pi server.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -20,6 +20,25 @@
 
   <main class="content">
     <h1>Projects</h1>
+
+    <div class="project">
+      <h3>Interval Enclosure — certified numerics in Rust</h3>
+      <p>
+        A Rust library for verified numerical computation. It computes
+        integrals with rigorous error bounds (midpoint, trapezoidal, Simpson,
+        Gauss–Legendre, adaptive) and encloses ODE solutions with Taylor
+        models, following the approach of Bünger. Every result is an interval
+        guaranteed to contain the true value, thanks to interval arithmetic
+        with outward rounding.
+      </p>
+      <span class="tag">Rust</span>
+      <span class="tag">Interval arithmetic</span>
+      <span class="tag">Numerical analysis</span>
+      <span class="tag">Verified computation</span>
+      <div style="margin-top: 0.6rem;">
+        <a href="interval-enclosure.html" class="card-link">View project page →</a>
+      </div>
+    </div>
 
     <div class="project">
       <h3>CLI To-Do List in Rust</h3>

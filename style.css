@@ -298,3 +298,171 @@ footer {
     transition: none !important;
   }
 }
+
+/* --- Inline code --- */
+
+code {
+  font-family: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Consolas, monospace;
+  font-size: 0.88em;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  color: #e6edf3;
+}
+
+/* --- Code blocks (see code.js) --- */
+
+.codeblock {
+  margin: 1.2rem 0 1.5rem;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  background: #0b0f14;
+  overflow: hidden;
+}
+
+.codeblock-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.9rem;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+.codeblock-title {
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.codeblock-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.codeblock-btn {
+  font: inherit;
+  font-size: 0.78rem;
+  color: #58a6ff;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.4;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.codeblock-btn:hover:not(:disabled) {
+  background: #0d1117;
+  border-color: #58a6ff;
+}
+
+.codeblock-btn:disabled {
+  color: #8b949e;
+  cursor: progress;
+}
+
+.codeblock pre {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  font-family: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #e6edf3;
+  tab-size: 4;
+}
+
+.codeblock pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+.codeblock figcaption {
+  padding: 0.5rem 0.9rem;
+  border-top: 1px solid #21262d;
+  font-size: 0.8rem;
+  color: #8b949e;
+  line-height: 1.5;
+}
+
+.codeblock-output {
+  border-top: 1px solid #30363d;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  color: #8b949e;
+  background: #0d1117;
+}
+
+.codeblock-output pre {
+  padding: 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.codeblock-stdout {
+  color: #7ee787 !important;
+}
+
+.codeblock-output.is-error,
+.codeblock-stderr {
+  color: #ff7b72 !important;
+}
+
+.tok-comment { color: #8b949e; font-style: italic; }
+.tok-string  { color: #a5d6ff; }
+.tok-number  { color: #79c0ff; }
+.tok-keyword { color: #ff7b72; }
+.tok-type    { color: #ffa657; }
+.tok-macro   { color: #d2a8ff; }
+
+/* --- Project pages: references and notes --- */
+
+ol.refs {
+  list-style: none;
+  counter-reset: ref;
+  padding-left: 0;
+}
+
+ol.refs li {
+  counter-increment: ref;
+  position: relative;
+  padding-left: 2.2rem;
+  font-size: 0.92rem;
+}
+
+ol.refs li::before {
+  content: '[' counter(ref) ']';
+  position: absolute;
+  left: 0.3rem;
+  color: #8b949e;
+}
+
+.note {
+  border-left: 3px solid #d29922;
+  background: rgba(210, 153, 34, 0.07);
+  padding: 0.7rem 1rem;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+  margin: 1rem 0;
+}
+
+a {
+  color: #58a6ff;
+}
+
+.cta-row {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}

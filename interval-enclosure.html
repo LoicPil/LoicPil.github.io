@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interval Enclosure (Rust) — Loïc Pilette</title>
+  <meta name="description" content="A Rust library for verified numerics: certified quadrature with rigorous error bounds and Taylor-model enclosures of ODE solutions, built on interval arithmetic.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html" class="active" aria-current="page">Projects</a>
+    </div>
+  </nav>
+
+  <main class="content">
+    <h1>Interval Enclosure</h1>
+    <p class="subtitle" style="text-align:left;">
+      A Rust library for verified numerical computation: results come with a
+      mathematical guarantee, not just a small error estimate.
+    </p>
+
+    <h2>Overview</h2>
+    <p>
+      Ordinary floating-point code returns a number and hopes it is close
+      to the truth. This crate returns an <em>interval</em> that is guaranteed
+      to contain the exact answer. It tackles two problems:
+    </p>
+    <ul>
+      <li>
+        <strong>Certified quadrature</strong> — midpoint, trapezoidal, Simpson
+        and Gauss–Legendre rules, with rigorous error bounds obtained through
+        interval arithmetic.
+      </li>
+      <li>
+        <strong>Certified ODE integration</strong> — enclosures of solutions of
+        first-order systems using Taylor models, inspired by the work of
+        Florian Bünger [1].
+      </li>
+    </ul>
+    <p>
+      A Taylor model pairs a polynomial with an interval remainder, so a whole
+      set of solutions can be represented and propagated with guaranteed error
+      bounds.
+    </p>
+
+    <h2>Features</h2>
+    <h3 style="margin: 1rem 0 0.6rem; font-size: 1.05rem;">Certified integration</h3>
+    <ul>
+      <li>Midpoint, trapezoidal and Simpson rules, each with a rigorous error bound</li>
+      <li>Gauss–Legendre quadrature built with the Golub–Welsch algorithm</li>
+      <li>Adaptive integration with error control (a priority queue refines the subinterval with the largest error estimate)</li>
+      <li>Error terms bounded by evaluating derivatives in interval arithmetic</li>
+    </ul>
+    <h3 style="margin: 1rem 0 0.6rem; font-size: 1.05rem;">ODE solving</h3>
+    <ul>
+      <li>Taylor model arithmetic with rigorous rounding-error tracking</li>
+      <li>Picard iteration for the polynomial part</li>
+      <li>ε–δ inflation to verify the remainder</li>
+      <li>Preconditioning (parallelepiped and QR) to reduce the wrapping effect, plus blunting for near-singular matrices</li>
+      <li>Verified enclosures for interval initial value problems</li>
+    </ul>
+
+    <h2>How it works</h2>
+    <p>
+      <strong>Interval arithmetic.</strong> Real numbers are replaced by
+      intervals, and every operation rounds <em>outward</em>, so the computed
+      interval always contains the true mathematical value [2][3]. The crate
+      uses the <code>inari</code> library with an MPFR/GMP backend for this.
+    </p>
+    <p>
+      <strong>Quadrature.</strong> Following Gautschi [5], Gauss–Legendre nodes
+      are the eigenvalues of the Jacobi matrix built from the Legendre
+      recurrence coefficients, and the weights come from the eigenvectors (the
+      reference values for orders 5, 10 and 20 are taken from the DLMF [4]).
+      The classical error formula of each rule is then evaluated with interval
+      arithmetic on the derivative term, which turns the usual error estimate
+      into a proven bound: the result is an interval guaranteed to contain the
+      exact integral.
+    </p>
+    <p>
+      <strong>ODEs.</strong> The method follows Bünger [1]. Picard iteration
+      computes the Taylor polynomial <code>p</code>; an ε–δ inflation loop then
+      looks for a remainder <code>E</code> satisfying
+      <code>K(p+E) ⊆ p+E</code>, which proves the enclosure through
+      Schauder's fixed-point theorem.
+    </p>
+
+    <h2>Try it in your browser</h2>
+    <p>
+      The crate itself needs MPFR and GMP, so it cannot run on a web page.
+      This demo is a self-contained miniature of the same idea, written with
+      the standard library only: a toy interval type that rounds outward by one
+      unit in the last place, and a certified midpoint rule for
+      ∫₀¹ x² dx = 1/3. The error term uses
+      |E| ≤ (b−a)·h²/24 · sup|f″| with f″ = 2, and the final check that
+      1/3 lies in the enclosure is itself done with intervals. Edit it and run
+      it; it executes on the official Rust Playground.
+    </p>
+
+    <figure class="codeblock" data-lang="rust" data-title="main.rs — certified midpoint rule (std only)" data-run="rust">
+      <pre><code>// A toy interval type with outward rounding, using only the standard library.
+// Every f64 operation is correctly rounded (error &lt;= 1/2 ulp), so stepping the
+// result one ulp outward gives a guaranteed enclosure of the exact result.
+
+#[derive(Clone, Copy, Debug)]
+struct Interval {
+    lo: f64,
+    hi: f64,
+}
+
+impl Interval {
+    fn new(lo: f64, hi: f64) -&gt; Self {
+        assert!(lo &lt;= hi);
+        Interval { lo, hi }
+    }
+
+    fn point(x: f64) -&gt; Self {
+        Interval { lo: x, hi: x }
+    }
+
+    fn add(self, o: Interval) -&gt; Interval {
+        Interval {
+            lo: (self.lo + o.lo).next_down(),
+            hi: (self.hi + o.hi).next_up(),
+        }
+    }
+
+    fn mul(self, o: Interval) -&gt; Interval {
+        let p = [self.lo * o.lo, self.lo * o.hi, self.hi * o.lo, self.hi * o.hi];
+        let lo = p.iter().cloned().fold(f64::INFINITY, f64::min);
+        let hi = p.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+        Interval { lo: lo.next_down(), hi: hi.next_up() }
+    }
+
+    fn width(self) -&gt; f64 {
+        self.hi - self.lo
+    }
+
+    fn contains(self, x: f64) -&gt; bool {
+        self.lo &lt;= x &amp;&amp; x &lt;= self.hi
+    }
+}
+
+// Certified midpoint rule for f(x) = x^2 on [0, 1] with n = 2^k panels.
+// Error formula: |E| &lt;= (b - a) * h^2 / 24 * sup|f''|, and f'' = 2 here.
+fn midpoint_x2(n: u32) -&gt; Interval {
+    let h = 1.0 / n as f64; // exact, since n is a power of two
+    let hi = Interval::point(h);
+
+    let mut sum = Interval::point(0.0);
+    for k in 0..n {
+        let m = Interval::point((k as f64 + 0.5) * h); // exact for powers of two
+        sum = sum.add(m.mul(m));
+    }
+    let quad = hi.mul(sum);
+
+    // Rigorous error bound: h^2 / 12, with 1/12 enclosed by an interval.
+    let twelfth = Interval::new((1.0f64 / 12.0).next_down(), (1.0f64 / 12.0).next_up());
+    let err = hi.mul(hi).mul(twelfth).hi;
+
+    quad.add(Interval::new(-err, err))
+}
+
+fn main() {
+    println!("Certified enclosure of the integral of x^2 over [0, 1] (exact value: 1/3)\n");
+    for k in 1..=8 {
+        let n = 1u32 &lt;&lt; (2 * k); // 4, 16, 64, ...
+        let r = midpoint_x2(n);
+        // 1/3 is in [lo, hi]  &lt;=&gt;  1 is in 3 * [lo, hi]  (checked with intervals)
+        let ok = Interval::point(3.0).mul(r).contains(1.0);
+        println!("n = {:&gt;6}  [{:.12}, {:.12}]  width = {:.3e}  contains 1/3: {}", n, r.lo, r.hi, r.width(), ok);
+        assert!(ok);
+    }
+}</code></pre>
+      <figcaption>A simplified illustration of the technique, not the crate's own code. Requires a recent stable Rust (<code>f64::next_up</code> / <code>next_down</code>).</figcaption>
+    </figure>
+
+    <h2>Using the crate</h2>
+    <p>
+      These two snippets come from the project's README. They are shown for
+      reading and copying, and run locally with <code>cargo</code>.
+    </p>
+
+    <figure class="codeblock" data-lang="rust" data-title="Certified integration">
+      <pre><code>use interval_enclosure::integration::{GaussLegendreRule, gauss_legendre_certified};
+
+let rule = GaussLegendreRule::new(5);
+
+// Integral of exp(x) from 0 to 1, with certified error bound
+// f^(10)(x) = exp(x) for order 5 rule (2n = 10)
+let result = gauss_legendre_certified(
+    &amp;rule,
+    |x| x.exp(),
+    |x| x.exp(),
+    0.0, 1.0, 1
+).unwrap();
+
+assert!(result.contains(std::f64::consts::E - 1.0));</code></pre>
+      <figcaption>Needs the crate and its MPFR/GMP dependencies, so there is no Run button here.</figcaption>
+    </figure>
+
+    <figure class="codeblock" data-lang="rust" data-title="ODE integration">
+      <pre><code>use interval_enclosure::{BungerOptions, solve, TaylorModel};
+
+fn harmonic_oscillator(y: Vec&lt;TaylorModel&gt;) -&gt; Vec&lt;TaylorModel&gt; {
+    vec![y[1].clone(), -y[0].clone()]
+}
+
+let initial = TaylorModel::parameterized_initial_set(&amp;[1.0, 0.0], &amp;[1e-6, 1e-6], 10);
+let options = BungerOptions { order: 10, h: 0.01, epsilon: 0.01, delta: 1e-12,
+                              max_inflation_iterations: 50, blunt_tau: Some(1e-10),
+                              preconditioning: true };
+
+let result = solve(initial, harmonic_oscillator, 0.0, 10.0, &amp;options).unwrap();
+interval_enclosure::plot_solution(&amp;result, "Harmonic Oscillator", "osc.png").unwrap();</code></pre>
+      <figcaption>Needs the crate and its MPFR/GMP dependencies, so there is no Run button here.</figcaption>
+    </figure>
+
+    <h2>Current limitations</h2>
+    <ul>
+      <li>The ODE solver only handles first-order systems; higher-order equations must be rewritten in first-order form.</li>
+      <li>Taylor model versions of the standard functions (<code>exp</code>, <code>sin</code>, <code>cos</code>, …) are not fully implemented yet.</li>
+    </ul>
+
+    <h2>Tech stack</h2>
+    <ul>
+      <li>Rust</li>
+      <li><a href="https://crates.io/crates/inari"><code>inari</code></a> for interval arithmetic (requires MPFR and GMP)</li>
+      <li><a href="https://crates.io/crates/nalgebra"><code>nalgebra</code></a> for linear algebra (Golub–Welsch)</li>
+      <li><a href="https://github.com/Chris00/rust-matplotlib"><code>rust-matplotlib</code></a> for plotting (requires Python and matplotlib)</li>
+      <li>MIT licensed</li>
+    </ul>
+
+    <h2>References</h2>
+    <ol class="refs">
+      <li>
+        F. Bünger, <em>A Taylor model toolbox for solving ODEs implemented in
+        MATLAB/INTLAB</em>, Journal of Computational and Applied Mathematics
+        368 (2020), 112511.
+        <a href="https://doi.org/10.1016/j.cam.2019.112511">doi:10.1016/j.cam.2019.112511</a>
+      </li>
+      <li>
+        G. Mayer, <em>Interval Analysis: And Automatic Result Verification</em>,
+        De Gruyter, 2017.
+        <a href="https://doi.org/10.1515/9783110499469">doi:10.1515/9783110499469</a>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Interval_arithmetic">Interval arithmetic</a>, Wikipedia.
+      </li>
+      <li>
+        <em>NIST Digital Library of Mathematical Functions</em>, Chapter 18:
+        Orthogonal Polynomials.
+        <a href="https://dlmf.nist.gov/18">dlmf.nist.gov/18</a>
+      </li>
+      <li>
+        W. Gautschi, <em>Orthogonal Polynomials: Computation and
+        Approximation</em>, Oxford University Press, 2004.
+        <a href="https://doi.org/10.1093/acprof:oso/9780198506720.001.0001">doi:10.1093/acprof:oso/9780198506720.001.0001</a>
+      </li>
+    </ol>
+
+    <div class="cta-row">
+      <a href="https://github.com/LoicPil/rust-interval-enclosure" class="card-link">View code on GitHub →</a>
+      <a href="projects.html" class="card-link">← All projects</a>
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+  <script src="code.js"></script>
+</body>
+</html>
