@@ -2,74 +2,790 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLI To-Do (Rust) — Loïc Pilette</title>
-  <meta name="description" content="A command-line to-do list app built in Rust while working through The Rust Programming Language, with HashMap-based storage and custom error handling.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CLI To-Do List (Rust): Loïc Pilette</title>
+  <meta name="description" content="A multi-list command-line to-do app in Rust with shared tasks, JSON saving and typed errors. Try it in a terminal on the page.">
+  <meta property="og:title" content="CLI To-Do List, Loïc Pilette">
+  <meta property="og:description" content="A multi-list command-line to-do app in Rust with shared tasks, JSON saving and typed errors. Try it in a terminal on the page.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://loicpil.github.io/rust-todo.html">
+  <meta name="theme-color" content="#f2f4f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1124" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" href="fonts/stix-two-text-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-    </div>
-  </nav>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="page">
+    <header class="top">
+      <a class="mark" href="index.html">Loïc Pilette</a>
+      <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html" aria-current="page">Projects</a>
+      </nav>
+    </header>
 
-  <main class="content">
-    <h1>CLI To-Do List — Rust</h1>
-    <p class="subtitle" style="text-align:left;">
-      A command-line to-do list built while learning Rust chapter by chapter
-      through "The Rust Programming Language" (the "Rust Book").
-    </p>
+    <main id="main">
 
-    <h2>Overview</h2>
-    <p>
-      This is my main Rust learning project, extended progressively as I
-      work through the book: structs and ownership first, then enums and
-      pattern matching, modules, collections, and idiomatic error handling
-      with <code>Result</code>. Tasks are stored in a <code>HashMap</code>
-      keyed by a dedicated auto-incrementing ID (kept stable across
-      deletions, unlike indexing into a <code>Vec</code>), and invalid
-      commands or missing IDs are handled through a custom
-      <code>TodoError</code> type rather than panicking. Development follows
-      a Git workflow with feature branches, conventional commits, and a
-      changelog.
-    </p>
+      <p class="back"><a href="projects.html">All projects</a></p>
+      <h1>CLI To-Do List</h1>
+      <p class="lede">A colorful multi-list command-line to-do app, built from scratch while working through
+        <a href="https://doc.rust-lang.org/book/"><em>The Rust Programming Language</em></a>.
+        It started as a five-minute <code>Vec&lt;Task&gt;</code> and ended as a tool I can install and use every day.</p>
+      <p class="meta-line">Rust, MIT licensed, version 1.0.0. <a href="https://github.com/LoicPil/rust-todo-cli">Source on GitHub</a>.</p>
 
-    <h2>Features</h2>
-    <ul>
-      <li>Add a task</li>
-      <li>List all tasks, or filter by status (Todo / In Progress / Done)</li>
-      <li>Mark a task as in progress or done</li>
-      <li>Remove a task</li>
-      <li>Stable task IDs that persist correctly across deletions</li>
-      <li>Interactive command-line loop (REPL-style)</li>
-    </ul>
+      <h2>Try it</h2>
+      <div class="prose">
+      <p>This terminal runs a JavaScript port of the app's command logic, so it responds instantly. For the sample
+        session its output matches the compiled Rust program line for line. Nothing is saved or sent anywhere.
+        Press <strong>Run the sample session</strong>, or type <code>help</code>.</p>
+      </div>
 
-    <h2>Tech stack</h2>
-    <ul>
-      <li>Rust — standard library only so far (no external crates yet)</li>
-      <li><code>HashMap&lt;u32, Task&gt;</code> for O(1) lookup and removal by ID</li>
-      <li>Custom error handling via a <code>TodoError</code> enum and <code>Result</code></li>
-      <li>Git — feature branches, conventional commits, Keep a Changelog format</li>
-    </ul>
+      <div data-todo-terminal>
+        <p>This terminal needs JavaScript. The commands are listed further down the page.</p>
+      </div>
+      <p class="enc-note">Try sharing a task between two lists with <code>bassign</code>, then complete it in one list
+        with <code>bdone</code> and look at the other with <code>ball</code>.</p>
 
-    <h2>What's next</h2>
-    <p>
-      Currently working through automated testing (unit tests for the core
-      <code>add</code>/<code>complete</code>/<code>remove</code>/filter
-      behavior), with persistent JSON storage and a rewrite of the filtering
-      logic using iterators and closures planned for later chapters.
-    </p>
+      <div class="prose">
+      <h2>The Rust version, runnable</h2>
+      <p>The real app also saves to JSON with <code>serde</code> and colors its output with the <code>colored</code> crate.
+        This condensed version keeps the data model, the board with shared tasks and the command parser, uses only the
+        standard library, and replays a script of commands instead of reading from the keyboard. Edit the script
+        at the top of the file and run it on the Rust Playground.</p>
+      </div>
 
-    <div style="margin-top: 1.5rem;">
-      <a href="https://github.com/LoicPil/rust-todo-cli" class="card-link">View code on GitHub →</a>
-    </div>
-  </main>
+      <details class="source">
+        <summary>Show the Rust source (573 lines)</summary>
+    <figure class="codeblock" data-lang="rust" data-title="main.rs: to-do list and board (std only)" data-run="rust">
+      <pre><code>// Rust Todo CLI, condensed to run in one file with only the standard library.
+//
+// Taken from the project as it is: Status, Task, TodoError, TodoList, Board
+// (tasks shared between lists with Rc&lt;RefCell&lt;Task&gt;&gt;) and the command parser.
+// Left out: colors, JSON saving with serde, and reading from stdin.
+// Instead, the program replays the commands in SCRIPT, so you can edit them.
 
-  <script src="nav.js"></script>
+use std::cell::RefCell;
+use std::collections::{HashMap, HashSet};
+use std::fmt;
+use std::rc::Rc;
+
+const SCRIPT: &amp;str = r####"# Basic list
+add Set up the project
+add Write the tests
+add Ship it
+progress 2
+done 1
+list
+# Multi-list board: one task, two lists
+bcreate Work
+bcreate Personal
+badd Work Prepare slides
+badd Personal Buy milk
+bassign 1 Personal
+bdone 1
+ball
+bwhere 1
+bunassign 1 Work
+bwhere 1
+# Errors are values, not crashes
+bremove 99
+done two"####;
+
+// ---------- task.rs ----------
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum Status {
+    Todo,
+    InProgress,
+    Done,
+}
+
+#[derive(Clone)]
+struct Task {
+    description: String,
+    status: Status,
+}
+
+impl Task {
+    fn new(description: String) -&gt; Task {
+        Task { description, status: Status::Todo }
+    }
+}
+
+impl fmt::Display for Status {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        let icon = match self {
+            Status::Todo =&gt; "[]",
+            Status::InProgress =&gt; "[~]",
+            Status::Done =&gt; "[x]",
+        };
+        write!(f, "{}", icon)
+    }
+}
+
+impl fmt::Display for Task {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(f, "{} {}", self.status, self.description)
+    }
+}
+
+// ---------- todo_list.rs ----------
+
+#[derive(PartialEq, Debug)]
+enum TodoError {
+    TaskNotFound(u32),
+    ListNotFound(String),
+}
+
+impl fmt::Display for TodoError {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        match self {
+            TodoError::TaskNotFound(id) =&gt; write!(f, "task {} not found", id),
+            TodoError::ListNotFound(name) =&gt; write!(f, "list '{}' not found", name),
+        }
+    }
+}
+
+struct TodoList {
+    tasks: HashMap&lt;u32, Task&gt;,
+    next_id: u32,
+}
+
+impl TodoList {
+    fn new() -&gt; TodoList {
+        TodoList { tasks: HashMap::new(), next_id: 1 }
+    }
+
+    fn add_task(&amp;mut self, description: String) {
+        let id = self.next_id;
+        self.tasks.insert(id, Task::new(description));
+        self.next_id += 1;
+    }
+
+    fn get_task(&amp;self, id: u32) -&gt; Result&lt;&amp;Task, TodoError&gt; {
+        self.tasks.get(&amp;id).ok_or(TodoError::TaskNotFound(id))
+    }
+
+    fn remove_task(&amp;mut self, id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        self.tasks.remove(&amp;id).ok_or(TodoError::TaskNotFound(id))?;
+        self.shrink_next_id();
+        Ok(())
+    }
+
+    // Ids are reused only when the removed task was the most recent one.
+    fn shrink_next_id(&amp;mut self) {
+        while self.next_id &gt; 1 &amp;&amp; !self.tasks.contains_key(&amp;(self.next_id - 1)) {
+            self.next_id -= 1;
+        }
+    }
+
+    fn complete_task(&amp;mut self, id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        let task = self.tasks.get_mut(&amp;id).ok_or(TodoError::TaskNotFound(id))?;
+        task.status = Status::Done;
+        Ok(())
+    }
+
+    fn set_in_progress(&amp;mut self, id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        let task = self.tasks.get_mut(&amp;id).ok_or(TodoError::TaskNotFound(id))?;
+        task.status = Status::InProgress;
+        Ok(())
+    }
+
+    fn list_tasks(&amp;self) -&gt; Vec&lt;String&gt; {
+        let mut entries: Vec&lt;(&amp;u32, &amp;Task)&gt; = self.tasks.iter().collect();
+        entries.sort_by_key(|(id, _)| **id);
+        entries.iter().map(|(id, task)| format!("{} {}", id, task)).collect()
+    }
+
+    fn list_by_status(&amp;self, status: Status) -&gt; Vec&lt;String&gt; {
+        let mut entries: Vec&lt;(&amp;u32, &amp;Task)&gt; =
+            self.tasks.iter().filter(|(_, task)| task.status == status).collect();
+        entries.sort_by_key(|(id, _)| **id);
+        entries.iter().map(|(id, task)| format!("{} {}", id, task)).collect()
+    }
+}
+
+// ---------- board.rs ----------
+
+type SharedTask = Rc&lt;RefCell&lt;Task&gt;&gt;;
+
+struct Board {
+    tasks: HashMap&lt;u32, SharedTask&gt;,
+    lists: HashMap&lt;String, HashSet&lt;u32&gt;&gt;,
+    next_id: u32,
+}
+
+impl Board {
+    fn new() -&gt; Board {
+        Board { tasks: HashMap::new(), lists: HashMap::new(), next_id: 1 }
+    }
+
+    fn create_list(&amp;mut self, name: &amp;str) {
+        self.lists.entry(name.to_string()).or_insert_with(HashSet::new);
+    }
+
+    fn add_task(&amp;mut self, list_name: &amp;str, description: String) -&gt; u32 {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.tasks.insert(id, Rc::new(RefCell::new(Task::new(description))));
+        self.lists.entry(list_name.to_string()).or_insert_with(HashSet::new).insert(id);
+        id
+    }
+
+    fn add_existing_task(&amp;mut self, list_name: &amp;str, task: Task) -&gt; u32 {
+        let id = self.next_id;
+        self.next_id += 1;
+        self.tasks.insert(id, Rc::new(RefCell::new(task)));
+        self.lists.entry(list_name.to_string()).or_insert_with(HashSet::new).insert(id);
+        id
+    }
+
+    fn assign_task_to_list(&amp;mut self, task_id: u32, list_name: &amp;str) -&gt; Result&lt;(), TodoError&gt; {
+        if !self.tasks.contains_key(&amp;task_id) {
+            return Err(TodoError::TaskNotFound(task_id));
+        }
+        self.lists.entry(list_name.to_string()).or_insert_with(HashSet::new).insert(task_id);
+        Ok(())
+    }
+
+    fn complete_task(&amp;mut self, task_id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        let shared = self.tasks.get(&amp;task_id).ok_or(TodoError::TaskNotFound(task_id))?;
+        shared.borrow_mut().status = Status::Done;
+        Ok(())
+    }
+
+    fn set_in_progress(&amp;mut self, task_id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        let shared = self.tasks.get(&amp;task_id).ok_or(TodoError::TaskNotFound(task_id))?;
+        shared.borrow_mut().status = Status::InProgress;
+        Ok(())
+    }
+
+    fn list_tasks(&amp;self, list_name: &amp;str) -&gt; Vec&lt;String&gt; {
+        let Some(ids) = self.lists.get(list_name) else {
+            return Vec::new();
+        };
+        let mut entries: Vec&lt;(&amp;u32, &amp;SharedTask)&gt; =
+            ids.iter().filter_map(|id| self.tasks.get(id).map(|task| (id, task))).collect();
+        entries.sort_by_key(|(id, _)| **id);
+        entries.iter().map(|(id, task)| format!("{} {}", id, task.borrow())).collect()
+    }
+
+    fn lists_containing(&amp;self, task_id: u32) -&gt; Vec&lt;String&gt; {
+        let mut names: Vec&lt;String&gt; = self
+            .lists
+            .iter()
+            .filter(|(_, ids)| ids.contains(&amp;task_id))
+            .map(|(name, _)| name.clone())
+            .collect();
+        names.sort(); // sorted here so the output is stable
+        names
+    }
+
+    fn remove_from_list(&amp;mut self, task_id: u32, list_name: &amp;str) -&gt; Result&lt;(), TodoError&gt; {
+        let removed = self
+            .lists
+            .get_mut(list_name)
+            .map(|ids| ids.remove(&amp;task_id))
+            .unwrap_or(false);
+        if !removed {
+            return Err(TodoError::TaskNotFound(task_id));
+        }
+        // A task that no list references anymore is dropped from the registry.
+        let still_referenced = self.lists.values().any(|ids| ids.contains(&amp;task_id));
+        if !still_referenced {
+            self.tasks.remove(&amp;task_id);
+            self.shrink_next_id();
+        }
+        Ok(())
+    }
+
+    fn remove_task(&amp;mut self, task_id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        if self.tasks.remove(&amp;task_id).is_none() {
+            return Err(TodoError::TaskNotFound(task_id));
+        }
+        for ids in self.lists.values_mut() {
+            ids.remove(&amp;task_id);
+        }
+        self.shrink_next_id();
+        Ok(())
+    }
+
+    fn shrink_next_id(&amp;mut self) {
+        while self.next_id &gt; 1 &amp;&amp; !self.tasks.contains_key(&amp;(self.next_id - 1)) {
+            self.next_id -= 1;
+        }
+    }
+
+    fn delete_list(&amp;mut self, list_name: &amp;str) -&gt; Result&lt;(), TodoError&gt; {
+        let ids: Vec&lt;u32&gt; = self
+            .lists
+            .get(list_name)
+            .ok_or_else(|| TodoError::ListNotFound(list_name.to_string()))?
+            .iter()
+            .cloned()
+            .collect();
+        for id in ids {
+            let _ = self.remove_from_list(id, list_name);
+        }
+        self.lists.remove(list_name);
+        Ok(())
+    }
+
+    fn list_names(&amp;self) -&gt; Vec&lt;String&gt; {
+        let mut names: Vec&lt;String&gt; = self.lists.keys().cloned().collect();
+        names.sort();
+        names
+    }
+}
+
+// ---------- main.rs: command parsing ----------
+
+enum Command {
+    Add(String),
+    Done(u32),
+    Remove(u32),
+    Progress(u32),
+    List,
+    Filter(Status),
+    Help,
+    Unrecognized(String),
+    InvalidArgument(String),
+    ImportToBoard(u32, String),
+    BoardCreate(String),
+    BoardAdd(String, String),
+    BoardDone(u32),
+    BoardProgress(u32),
+    BoardList(String),
+    BoardLists,
+    BoardAll,
+    BoardAssign(u32, String),
+    BoardUnassign(u32, String),
+    BoardRemove(u32),
+    BoardDeleteList(String),
+    BoardWhere(u32),
+}
+
+// Splits "&lt;id&gt; &lt;name...&gt;" for the commands that take an id and a list name.
+fn id_and_list(argument: &amp;str) -&gt; Option&lt;(u32, String)&gt; {
+    let mut sub = argument.splitn(2, ' ');
+    let id = sub.next().unwrap_or("").trim().parse::&lt;u32&gt;().ok()?;
+    let list = sub.next().unwrap_or("").trim();
+    if list.is_empty() { None } else { Some((id, list.to_string())) }
+}
+
+fn parse_command(input: &amp;str) -&gt; Command {
+    let mut parts = input.splitn(2, ' ');
+    let command = parts.next().unwrap_or("");
+    let argument = parts.next().unwrap_or("").trim();
+    let id = argument.parse::&lt;u32&gt;();
+
+    match command {
+        "add" =&gt; Command::Add(argument.to_string()),
+        "done" =&gt; match id {
+            Ok(id) =&gt; Command::Done(id),
+            Err(_) =&gt; Command::InvalidArgument("done requires a numeric id".to_string()),
+        },
+        "remove" =&gt; match id {
+            Ok(id) =&gt; Command::Remove(id),
+            Err(_) =&gt; Command::InvalidArgument("remove requires a numeric id".to_string()),
+        },
+        "progress" =&gt; match id {
+            Ok(id) =&gt; Command::Progress(id),
+            Err(_) =&gt; Command::InvalidArgument("progress requires a numeric id".to_string()),
+        },
+        "filter" | "status" =&gt; match argument.to_lowercase().as_str() {
+            "todo" =&gt; Command::Filter(Status::Todo),
+            "done" =&gt; Command::Filter(Status::Done),
+            "inprogress" | "progress" =&gt; Command::Filter(Status::InProgress),
+            _ =&gt; Command::InvalidArgument("filter requires: todo | done | inprogress".to_string()),
+        },
+        "list" =&gt; Command::List,
+        "help" | "?" =&gt; Command::Help,
+        "bimport" =&gt; match id_and_list(argument) {
+            Some((id, list)) =&gt; Command::ImportToBoard(id, list),
+            None =&gt; Command::InvalidArgument("bimport requires: &lt;id&gt; &lt;list&gt;".to_string()),
+        },
+        "bcreate" if argument.is_empty() =&gt; {
+            Command::InvalidArgument("bcreate requires: &lt;list&gt;".to_string())
+        }
+        "bcreate" =&gt; Command::BoardCreate(argument.to_string()),
+        "badd" =&gt; {
+            let mut sub = argument.splitn(2, ' ');
+            let list = sub.next().unwrap_or("").trim();
+            let desc = sub.next().unwrap_or("").trim();
+            if list.is_empty() || desc.is_empty() {
+                Command::InvalidArgument("badd requires: &lt;list&gt; &lt;description&gt;".to_string())
+            } else {
+                Command::BoardAdd(list.to_string(), desc.to_string())
+            }
+        }
+        "bdone" =&gt; match id {
+            Ok(id) =&gt; Command::BoardDone(id),
+            Err(_) =&gt; Command::InvalidArgument("bdone requires a numeric id".to_string()),
+        },
+        "bprogress" =&gt; match id {
+            Ok(id) =&gt; Command::BoardProgress(id),
+            Err(_) =&gt; Command::InvalidArgument("bprogress requires a numeric id".to_string()),
+        },
+        "blist" if argument.is_empty() =&gt; {
+            Command::InvalidArgument("blist requires: &lt;list&gt;".to_string())
+        }
+        "blist" =&gt; Command::BoardList(argument.to_string()),
+        "blists" =&gt; Command::BoardLists,
+        "ball" =&gt; Command::BoardAll,
+        "bassign" =&gt; match id_and_list(argument) {
+            Some((id, list)) =&gt; Command::BoardAssign(id, list),
+            None =&gt; Command::InvalidArgument("bassign requires: &lt;id&gt; &lt;list&gt;".to_string()),
+        },
+        "bunassign" =&gt; match id_and_list(argument) {
+            Some((id, list)) =&gt; Command::BoardUnassign(id, list),
+            None =&gt; Command::InvalidArgument("bunassign requires: &lt;id&gt; &lt;list&gt;".to_string()),
+        },
+        "bremove" =&gt; match id {
+            Ok(id) =&gt; Command::BoardRemove(id),
+            Err(_) =&gt; Command::InvalidArgument("bremove requires a numeric id".to_string()),
+        },
+        "bdelete" if argument.is_empty() =&gt; {
+            Command::InvalidArgument("bdelete requires: &lt;list&gt;".to_string())
+        }
+        "bdelete" =&gt; Command::BoardDeleteList(argument.to_string()),
+        "bwhere" =&gt; match id {
+            Ok(id) =&gt; Command::BoardWhere(id),
+            Err(_) =&gt; Command::InvalidArgument("bwhere requires a numeric id".to_string()),
+        },
+        _ =&gt; Command::Unrecognized(command.to_string()),
+    }
+}
+
+// ---------- main.rs: table output (plain text) ----------
+
+fn parse_task_line(line: &amp;str) -&gt; Option&lt;(&amp;str, &amp;str, &amp;str)&gt; {
+    let mut parts = line.splitn(2, ' ');
+    let id = parts.next()?;
+    let rest = parts.next()?;
+    let mut rest_parts = rest.splitn(2, ' ');
+    let icon = rest_parts.next()?;
+    let desc = rest_parts.next().unwrap_or("");
+    if icon == "[]" || icon == "[~]" || icon == "[x]" { Some((id, icon, desc)) } else { None }
+}
+
+fn status_label(icon: &amp;str) -&gt; &amp;'static str {
+    match icon {
+        "[x]" =&gt; "[x] Done",
+        "[~]" =&gt; "[~] Doing",
+        _ =&gt; "[ ] Todo",
+    }
+}
+
+fn print_task_table(title: Option&lt;&amp;str&gt;, lines: &amp;[String]) {
+    let rows: Vec&lt;(&amp;str, &amp;str, &amp;str)&gt; = lines.iter().filter_map(|l| parse_task_line(l)).collect();
+
+    if let Some(t) = title {
+        println!("\n╭─ {} ({}) ", t, rows.len());
+    }
+    if rows.is_empty() {
+        println!("  (no tasks)");
+        return;
+    }
+
+    let id_w = rows.iter().map(|(id, _, _)| id.len()).max().unwrap_or(2).max(2);
+    let st_w = 9;
+    let de_w = rows.iter().map(|(_, _, d)| d.chars().count()).max().unwrap_or(11).max(11);
+
+    let line = |l: &amp;str, m: &amp;str, r: &amp;str| {
+        format!("{}─{}─{}─{}─{}─{}", l, "─".repeat(id_w), m, "─".repeat(st_w), m, "─".repeat(de_w) + "─" + r)
+    };
+    println!("{}", line("╭", "┬", "╮"));
+    println!("│ {:&lt;id_w$} │ {:&lt;st_w$} │ {:&lt;de_w$} │", "ID", "Status", "Description");
+    println!("{}", line("├", "┼", "┤"));
+    for (id, icon, desc) in rows {
+        let pad = de_w - desc.chars().count();
+        println!("│ {:&lt;id_w$} │ {:&lt;st_w$} │ {}{} │", id, status_label(icon), desc, " ".repeat(pad));
+    }
+    println!("{}", line("╰", "┴", "╯"));
+}
+
+// ---------- main ----------
+
+fn main() {
+    let mut todo = TodoList::new();
+    let mut board = Board::new();
+
+    println!("Type help for the list of commands.");
+
+    for raw in SCRIPT.lines() {
+        let input = raw.trim();
+        if input.is_empty() || input.starts_with('#') {
+            continue;
+        }
+        println!("\n&gt; {}", input);
+
+        match parse_command(input) {
+            Command::Add(desc) =&gt; {
+                if desc.is_empty() {
+                    println!("Error: description cannot be empty.");
+                } else {
+                    todo.add_task(desc);
+                    println!("Task added.");
+                }
+            }
+            Command::Done(id) =&gt; match todo.complete_task(id) {
+                Ok(()) =&gt; println!("Task {} marked as done.", id),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::Remove(id) =&gt; match todo.remove_task(id) {
+                Ok(()) =&gt; println!("Task {} removed.", id),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::Progress(id) =&gt; match todo.set_in_progress(id) {
+                Ok(()) =&gt; println!("Task {} marked as in progress.", id),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::List =&gt; print_task_table(Some("All tasks"), &amp;todo.list_tasks()),
+            Command::Filter(status) =&gt; {
+                print_task_table(Some(&amp;format!("Filter: {}", status)), &amp;todo.list_by_status(status))
+            }
+            Command::Help =&gt; println!(
+                "Basic: add &lt;desc&gt; | done &lt;id&gt; | remove &lt;id&gt; | progress &lt;id&gt; | list | filter &lt;todo|done|inprogress&gt;\n\
+                 Board: bimport &lt;id&gt; &lt;list&gt; | bcreate &lt;list&gt; | badd &lt;list&gt; &lt;desc&gt; | bdone &lt;id&gt; | bprogress &lt;id&gt;\n\
+                 \x20      blists | ball | blist &lt;list&gt; | bassign &lt;id&gt; &lt;list&gt; | bunassign &lt;id&gt; &lt;list&gt;\n\
+                 \x20      bremove &lt;id&gt; | bdelete &lt;list&gt; | bwhere &lt;id&gt;"
+            ),
+            Command::Unrecognized(cmd) =&gt; {
+                println!("Unknown command: '{}'. Type 'help' for the list.", cmd)
+            }
+            Command::InvalidArgument(msg) =&gt; println!("Invalid argument: {}.", msg),
+            Command::ImportToBoard(id, list_name) =&gt; match todo.get_task(id).map(|t| t.clone()) {
+                Ok(task) =&gt; {
+                    let new_id = board.add_existing_task(&amp;list_name, task);
+                    let _ = todo.remove_task(id);
+                    println!(
+                        "Task {} moved from the base list into '{}' (new id: {}).",
+                        id, list_name, new_id
+                    );
+                }
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardCreate(list_name) =&gt; {
+                board.create_list(&amp;list_name);
+                println!("List '{}' created.", list_name);
+            }
+            Command::BoardAdd(list_name, desc) =&gt; {
+                let id = board.add_task(&amp;list_name, desc);
+                println!("Task {} added to list '{}'.", id, list_name);
+            }
+            Command::BoardDone(id) =&gt; match board.complete_task(id) {
+                Ok(()) =&gt; println!("Task {} marked as done (all lists).", id),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardProgress(id) =&gt; match board.set_in_progress(id) {
+                Ok(()) =&gt; println!("Task {} marked as in progress (all lists).", id),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardList(list_name) =&gt; {
+                print_task_table(Some(&amp;list_name), &amp;board.list_tasks(&amp;list_name))
+            }
+            Command::BoardAll =&gt; {
+                let names = board.list_names();
+                if names.is_empty() {
+                    println!("No lists yet.");
+                }
+                for name in names {
+                    print_task_table(Some(&amp;name), &amp;board.list_tasks(&amp;name));
+                }
+            }
+            Command::BoardLists =&gt; {
+                let names = board.list_names();
+                if names.is_empty() {
+                    println!("No lists yet.");
+                } else {
+                    println!("Lists ({}): {}", names.len(), names.join(", "));
+                }
+            }
+            Command::BoardAssign(id, list_name) =&gt; match board.assign_task_to_list(id, &amp;list_name) {
+                Ok(()) =&gt; println!("Task {} shared into list '{}'.", id, list_name),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardUnassign(id, list_name) =&gt; match board.remove_from_list(id, &amp;list_name) {
+                Ok(()) =&gt; println!("Task {} removed from list '{}'.", id, list_name),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardRemove(id) =&gt; match board.remove_task(id) {
+                Ok(()) =&gt; println!("Task {} removed entirely (all lists).", id),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardDeleteList(list_name) =&gt; match board.delete_list(&amp;list_name) {
+                Ok(()) =&gt; println!("List '{}' deleted (its tasks were unassigned from it).", list_name),
+                Err(e) =&gt; println!("Error: {}.", e),
+            },
+            Command::BoardWhere(id) =&gt; {
+                let lists = board.lists_containing(id);
+                if lists.is_empty() {
+                    println!("Task {} is not in any list.", id);
+                } else {
+                    println!("Task {} is in: {}", id, lists.join(", "));
+                }
+            }
+        }
+    }
+}
+</code></pre>
+      <figcaption>Condensed from the project: same logic, no colors, no JSON saving, no stdin. Edit the <code>SCRIPT</code> string to run your own commands.</figcaption>
+    </figure>
+      </details>
+
+      <div class="prose">
+      <h2>How it is built</h2>
+      <h3>Errors are values</h3>
+      <p>Every operation that can fail returns a <code>Result</code>. A missing task or list becomes a
+        <code>TodoError</code> that the main loop prints, so bad input never panics.</p>
+      </div>
+    <figure class="codeblock" data-lang="rust" data-title="task.rs and todo_list.rs (excerpt)">
+      <pre><code>pub enum Status {
+    Todo,
+    InProgress,
+    Done,
+}
+
+pub enum TodoError {
+    TaskNotFound(u32),
+    ListNotFound(String),
+}</code></pre>
+      <figcaption>Excerpt, doc comments removed.</figcaption>
+    </figure>
+
+      <div class="prose">
+      <h3>One task, many lists</h3>
+      <p>On the board, a task lives once and lists only hold its id. The registry stores each task as
+        <code>Rc&lt;RefCell&lt;Task&gt;&gt;</code>, so completing it through any list updates it everywhere.
+        <code>borrow_mut()</code> gives temporary mutable access to the task inside the <code>RefCell</code>.</p>
+      </div>
+    <figure class="codeblock" data-lang="rust" data-title="board.rs (excerpt)">
+      <pre><code>pub type SharedTask = Rc&lt;RefCell&lt;Task&gt;&gt;;
+
+pub struct Board {
+    tasks: HashMap&lt;u32, SharedTask&gt;,
+    lists: HashMap&lt;String, HashSet&lt;u32&gt;&gt;,
+    next_id: u32,
+}
+
+    pub fn complete_task(&amp;mut self, task_id: u32) -&gt; Result&lt;(), TodoError&gt; {
+        let shared = self.tasks.get(&amp;task_id).ok_or(TodoError::TaskNotFound(task_id))?;
+        // borrow_mut() gives us temporary mutable access to the Task
+        // inside the RefCell. It ends automatically when `task` goes
+        // out of scope at the end of this block.
+        let mut task = shared.borrow_mut();
+        task.status = Status::Done;
+        Ok(())
+    }</code></pre>
+      <figcaption>Excerpt, doc comments removed.</figcaption>
+    </figure>
+
+      <div class="prose">
+      <h3>Ids stay compact</h3>
+      <p>Tasks are stored in a <code>HashMap</code> keyed by a numeric id, and removing a task never renumbers the
+        others. When the most recent task is removed, the counter steps back over any unused trailing ids, so the
+        next task reuses the freed number instead of leaving gaps.</p>
+      </div>
+    <figure class="codeblock" data-lang="rust" data-title="todo_list.rs (excerpt)">
+      <pre><code>    fn shrink_next_id(&amp;mut self) {
+        while self.next_id &gt; 1 &amp;&amp; !self.tasks.contains_key(&amp;(self.next_id - 1)) {
+            self.next_id -= 1;
+        }
+    }</code></pre>
+      <figcaption>Excerpt, doc comments removed. The board has the same method.</figcaption>
+    </figure>
+
+      <div class="prose">
+      <h2>Features</h2>
+      <ul>
+        <li>Basic list: add, complete, remove, mark in progress, filter by status.</li>
+        <li>Multi-list board: named lists such as "Work" and "Personal", with tasks that can be shared across lists.</li>
+        <li>Persistent: everything saves to JSON in <code>~/.todo_cli/</code> and reloads on startup.</li>
+        <li>Styled output: bordered tables, color-coded status, strikethrough for done tasks.</li>
+        <li>Installable: <code>cargo install --path .</code>, then run <code>todo_list</code> from any folder.</li>
+        <li>Tested and documented: unit tests in every module and rustdoc comments.</li>
+      </ul>
+
+      <h2>Commands</h2>
+      </div>
+      <p><strong>Basic list</strong></p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
+        <tbody>
+          <tr><td>add &lt;desc&gt;</td><td>add a new task</td></tr>
+          <tr><td>done &lt;id&gt;</td><td>mark a task done</td></tr>
+          <tr><td>remove &lt;id&gt;</td><td>remove a task</td></tr>
+          <tr><td>progress &lt;id&gt;</td><td>mark a task in progress</td></tr>
+          <tr><td>list</td><td>show all tasks</td></tr>
+          <tr><td>filter &lt;todo|done|inprogress&gt;</td><td>show tasks with a given status</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Multi-list board</strong></p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
+        <tbody>
+          <tr><td>bcreate &lt;list&gt;</td><td>create an empty list</td></tr>
+          <tr><td>badd &lt;list&gt; &lt;desc&gt;</td><td>add a task directly into a list</td></tr>
+          <tr><td>bdone &lt;id&gt;</td><td>mark a board task done (visible in every list it's in)</td></tr>
+          <tr><td>bprogress &lt;id&gt;</td><td>mark a board task in progress</td></tr>
+          <tr><td>blists</td><td>show every list's name</td></tr>
+          <tr><td>blist &lt;list&gt;</td><td>show tasks in a list</td></tr>
+          <tr><td>ball</td><td>show every list, each with its own header</td></tr>
+          <tr><td>bassign &lt;id&gt; &lt;list&gt;</td><td>share an existing task into another list</td></tr>
+          <tr><td>bunassign &lt;id&gt; &lt;list&gt;</td><td>remove a task from one list only</td></tr>
+          <tr><td>bremove &lt;id&gt;</td><td>remove a task entirely, from every list</td></tr>
+          <tr><td>bdelete &lt;list&gt;</td><td>delete a whole list (unassigns its tasks first)</td></tr>
+          <tr><td>bwhere &lt;id&gt;</td><td>show which lists contain a task</td></tr>
+          <tr><td>bimport &lt;id&gt; &lt;list&gt;</td><td>move a task from the base list into a board list</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted small">Also: <code>help</code> or <code>?</code> shows the help, and <code>quit</code> saves and exits.</p>
+
+      <div class="prose">
+      <h2>What it demonstrates</h2>
+      <p>The project is a deliberate tour through the book, chapter by chapter.</p>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">Concept</th><th scope="col">Where</th></tr></thead>
+        <tbody>
+          <tr><td>Structs and enums</td><td><code>Task</code>, <code>Status</code></td></tr>
+          <tr><td>Pattern matching</td><td>command parsing and the main loop</td></tr>
+          <tr><td>Modules</td><td><code>task</code>, <code>todo_list</code>, <code>board</code>, <code>main</code></td></tr>
+          <tr><td>Collections</td><td><code>HashMap&lt;u32, Task&gt;</code>, <code>HashSet&lt;u32&gt;</code></td></tr>
+          <tr><td>Error handling</td><td><code>TodoError</code> and <code>Result&lt;(), TodoError&gt;</code> throughout</td></tr>
+          <tr><td>Traits</td><td><code>Display</code>, <code>PartialEq</code>, <code>Clone</code></td></tr>
+          <tr><td>Automated tests</td><td>unit tests in every module</td></tr>
+          <tr><td>Iterators and closures</td><td><code>.filter()</code>, <code>.sort_by_key()</code>, <code>.map()</code></td></tr>
+          <tr><td>Smart pointers</td><td><code>Rc&lt;RefCell&lt;Task&gt;&gt;</code> for tasks shared between lists</td></tr>
+          <tr><td>Serialization</td><td><code>serde</code> and <code>serde_json</code> for saving to JSON</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="prose">
+      <h2>Built with</h2>
+      <ul>
+        <li><a href="https://crates.io/crates/serde"><code>serde</code></a> and <a href="https://crates.io/crates/serde_json"><code>serde_json</code></a> for JSON persistence</li>
+        <li><a href="https://crates.io/crates/colored"><code>colored</code></a> for terminal colors</li>
+        <li>Git with feature branches, conventional commits and a changelog</li>
+      </ul>
+      </div>
+
+      <ul class="actions">
+        <li><a class="btn solid" href="https://github.com/LoicPil/rust-todo-cli">View code on GitHub</a></li>
+        <li><a class="btn" href="projects.html">All projects</a></li>
+      </ul>
+    </main>
+
+    <footer class="foot">
+      <span>&copy; 2026 Loïc Pilette</span>
+      <span><a href="https://github.com/LoicPil">GitHub</a>, <a href="https://www.linkedin.com/in/loic-pilette">LinkedIn</a>, <a href="mailto:piletteloic@gmail.com">email</a></span>
+    </footer>
+  </div>
+  <script src="todo.js"></script>
+  <script src="code.js"></script>
 </body>
 </html>

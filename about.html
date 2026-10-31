@@ -2,59 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Loïc Pilette</title>
-  <meta name="description" content="About Loïc Pilette: mathematics background, academic tutoring experience, and field hockey refereeing with Hockey Belgium.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About Loïc Pilette: mathematics, research and field hockey</title>
+  <meta name="description" content="Loïc Pilette: mathematics degree from UMons, research in numerical analysis, tutoring, and national field hockey refereeing with Hockey Belgium.">
+  <meta property="og:title" content="About Loïc Pilette">
+  <meta property="og:description" content="Loïc Pilette: mathematics degree from UMons, research in numerical analysis, tutoring, and national field hockey refereeing with Hockey Belgium.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://loicpil.github.io/about.html">
+  <meta name="theme-color" content="#f2f4f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1124" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" href="fonts/stix-two-text-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html" class="active" aria-current="page">About</a>
-      <a href="projects.html">Projects</a>
-    </div>
-  </nav>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="page">
+    <header class="top">
+      <a class="mark" href="index.html">Loïc Pilette</a>
+      <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="projects.html">Projects</a>
+      </nav>
+    </header>
 
-  <main class="content">
-    <h1>About</h1>
+    <main id="main">
 
-    <h2>Education</h2>
-    <ul>
-      <li>
-        Bachelor's degree in Mathematics — University of Mons (UMons)
-        <!-- TODO: add graduation year / current status (e.g. "graduating June 2026, starting Master's in ...") -->
-      </li>
-      <li>
-        Coursework: complex analysis, differential geometry, measure theory, probability, mathematical logic
-      </li>
-    </ul>
+      <h1>About</h1>
+      <p class="lede">I'm a mathematician who likes to turn proofs into programs, and I write most of them in Rust.</p>
 
-    <h2>Academic experience</h2>
-    <ul>
-      <li>
-        Academic tutor at the Faculty of Sciences (BAC1/BAC2 mathematics, Python/Java programming)
-        <!-- TODO: add dates and a one-line description of what tutoring involved -->
-      </li>
-    </ul>
+      <h2>Education</h2>
+      <dl class="facts">
+        <div><dt>Completed 2026</dt>
+          <dd><p>Bachelor's degree in Mathematics, University of Mons (UMons).</p>
+              <p class="muted small">Coursework included complex analysis, differential geometry, measure theory,
+              functional analysis, probability and mathematical logic.</p></dd></div>
+        <div><dt>Next</dt>
+          <dd>Starting a Master's degree.</dd></div>
+      </dl>
 
-    <h2>Field hockey</h2>
-    <ul>
-      <li>
-        National referee — Hockey Belgium (Outdoor/Indoor: U16, ASEUS, Division 1 Women)
-        <!-- TODO: add how many years refereeing and any progression -->
-      </li>
-      <li>Player at Ascalon HC Mons (ASCA)</li>
-    </ul>
+      <h2>Research</h2>
+      <dl class="facts">
+        <div><dt>August 2026</dt>
+          <dd><p>Research initiation grant in numerical analysis, supervised by Prof. Christophe Troestler (UMons).</p>
+              <p class="muted small">The work is on certified numerics with interval arithmetic. See
+              <a href="interval-enclosure.html">Interval Enclosure</a>.</p></dd></div>
+      </dl>
 
-    <p style="margin-top: 2rem; color: #8b949e; font-size: 0.9rem;">
-      <!-- TODO: link directly to a PDF once you have one, e.g. <a href="cv.pdf">Download my CV</a> -->
-      📄 A full CV is available on request.
-    </p>
-  </main>
+      <h2>Teaching</h2>
+      <dl class="facts">
+        <div><dt>Current</dt>
+          <dd>Academic tutor at the Faculty of Sciences, UMons: first- and second-year mathematics,
+              and introductory Python and Java.</dd></div>
+        <div><dt>Autumn 2026</dt>
+          <dd>Student assistant for a first-year course on elementary mathematics and complex numbers.</dd></div>
+      </dl>
 
-  <script src="nav.js"></script>
+      <h2>Field hockey</h2>
+      <dl class="facts">
+        <div><dt>Referee</dt>
+          <dd><p>National referee with Hockey Belgium, outdoor and indoor: U14, U16, ASEUS and Division 1 Women.</p>
+              <p class="muted small">Member of the Hockey Belgium Youth Cell.</p></dd></div>
+        <div><dt>Player</dt>
+          <dd>Right back at Ascalon HC Mons (ASCA).</dd></div>
+      </dl>
+
+      <h2>Tools</h2>
+      <p class="prose">Rust is my main language right now. I also use Java and Python (with Matplotlib), typeset
+        proofs in LaTeX, and work on Linux. I self-host my own storage server; it is described on the
+        <a href="projects.html">projects page</a>.</p>
+
+      <h2>Contact and CV</h2>
+      <p class="prose">A full CV is available on request. The quickest way to reach me is by
+        <a href="mailto:piletteloic@gmail.com">email</a>; I'm also on <a href="https://www.linkedin.com/in/loic-pilette">LinkedIn</a> and
+        <a href="https://github.com/LoicPil">GitHub</a>.</p>
+    </main>
+
+    <footer class="foot">
+      <span>&copy; 2026 Loïc Pilette</span>
+      <span><a href="https://github.com/LoicPil">GitHub</a>, <a href="https://www.linkedin.com/in/loic-pilette">LinkedIn</a>, <a href="mailto:piletteloic@gmail.com">email</a></span>
+    </footer>
+  </div>
+
 </body>
 </html>

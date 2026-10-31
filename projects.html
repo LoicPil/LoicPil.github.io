@@ -2,90 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects — Loïc Pilette</title>
-  <meta name="description" content="Selected projects by Loïc Pilette: a Rust library for certified numerical integration and ODE enclosures, a Rust CLI to-do app, a Java priority search tree, and a self-hosted Raspberry Pi server.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects: Loïc Pilette</title>
+  <meta name="description" content="Projects by Loïc Pilette: a Rust library for certified integration and ODE enclosures, a Rust CLI to-do app, a Java priority search tree, and a self-hosted Raspberry Pi server.">
+  <meta property="og:title" content="Projects, Loïc Pilette">
+  <meta property="og:description" content="Projects by Loïc Pilette: a Rust library for certified integration and ODE enclosures, a Rust CLI to-do app, a Java priority search tree, and a self-hosted Raspberry Pi server.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://loicpil.github.io/projects.html">
+  <meta name="theme-color" content="#f2f4f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1124" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" href="fonts/stix-two-text-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <button class="nav-toggle" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html" class="active" aria-current="page">Projects</a>
-    </div>
-  </nav>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="page">
+    <header class="top">
+      <a class="mark" href="index.html">Loïc Pilette</a>
+      <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html" aria-current="page">Projects</a>
+      </nav>
+    </header>
 
-  <main class="content">
-    <h1>Projects</h1>
+    <main id="main">
 
-    <div class="project">
-      <h3>Interval Enclosure — certified numerics in Rust</h3>
-      <p>
-        A Rust library for verified numerical computation. It computes
-        integrals with rigorous error bounds (midpoint, trapezoidal, Simpson,
-        Gauss–Legendre, adaptive) and encloses ODE solutions with Taylor
-        models, following the approach of Bünger. Every result is an interval
-        guaranteed to contain the true value, thanks to interval arithmetic
-        with outward rounding.
-      </p>
-      <span class="tag">Rust</span>
-      <span class="tag">Interval arithmetic</span>
-      <span class="tag">Numerical analysis</span>
-      <span class="tag">Verified computation</span>
-      <div style="margin-top: 0.6rem;">
-        <a href="interval-enclosure.html" class="card-link">View project page →</a>
-      </div>
-    </div>
+      <h1>Projects</h1>
+      <p class="lede">Two of these run on the page: drag a slider, type into a terminal, or edit the Rust and run it.</p>
 
-    <div class="project">
-      <h3>CLI To-Do List in Rust</h3>
-      <p>
-        A command-line to-do list built from scratch while working through
-        "The Rust Programming Language" chapter by chapter — from basic
-        structs and ownership up through enums, modules, collections, error
-        handling, and traits. Tasks are stored in a <code>HashMap</code> keyed
-        by a stable ID, with custom error types (<code>Result</code>-based,
-        no panics on invalid input) and a proper Display implementation for
-        clean output.
-      </p>
-      <span class="tag">Rust</span>
-      <span class="tag">CLI</span>
-      <span class="tag">Error handling</span>
-      <div style="margin-top: 0.6rem;">
-        <a href="rust-todo.html" class="card-link">View project page →</a>
-      </div>
-    </div>
+      <ul class="works" style="margin-top:2.2rem">
+        <li>
+          <h3><a href="interval-enclosure.html">Interval Enclosure: certified numerics in Rust</a></h3>
+          <span class="live">Runs in your browser</span>
+          <p>A Rust library for verified numerical computation. It computes integrals with rigorous error bounds
+            (midpoint, trapezoidal, Simpson, Gauss–Legendre, adaptive) and encloses ODE solutions with Taylor
+            models, following the approach of Bünger. Every result is an interval guaranteed to contain the true
+            value, thanks to interval arithmetic with outward rounding.</p>
+          <p class="stack">Rust, interval arithmetic, numerical analysis, verified computation</p>
+        </li>
+        <li>
+          <h3><a href="rust-todo.html">CLI To-Do List in Rust</a></h3>
+          <span class="live">Runs in your browser</span>
+          <p>A colorful multi-list command-line to-do app, built from scratch while working through
+            <em>The Rust Programming Language</em>. Tasks can be shared between lists, everything saves to JSON,
+            and invalid input becomes an error message instead of a panic. Try it in a terminal on the project page.</p>
+          <p class="stack">Rust, CLI, error handling, serde</p>
+        </li>
+        <li>
+          <h3>Priority Search Tree in Java</h3>
+          <p>A priority search tree for windowing queries over horizontal and vertical segments, built for the
+            Data Structures II course at UMons. It came with a written report and an oral defense.
+            <a href="https://github.com/LoicPil">GitHub profile</a></p>
+          <p class="stack">Java, data structures</p>
+        </li>
+        <li>
+          <h3>Personal server on a Raspberry Pi 5</h3>
+          <p>A self-hosted NAS on a Raspberry Pi 5 (8&nbsp;GB RAM) with a 2&nbsp;TB SSD. OpenMediaVault manages
+            the storage, Immich backs up photos, and a WireGuard VPN gives secure remote access.</p>
+          <p class="stack">Linux, self-hosting</p>
+        </li>
+      </ul>
+    </main>
 
-    <div class="project">
-      <h3>Priority Search Tree (Java)</h3>
-      <p>
-        Java implementation of a priority search tree for windowing queries
-        over horizontal and vertical segments, built for the Data Structures
-        II course at UMons. Included a written report and an oral defense.
-      </p>
-      <span class="tag">Java</span>
-      <span class="tag">Data structures</span>
-      <div style="margin-top: 0.6rem;">
-        <a href="https://github.com/LoicPil" class="card-link">View on GitHub →</a>
-      </div>
-    </div>
+    <footer class="foot">
+      <span>&copy; 2026 Loïc Pilette</span>
+      <span><a href="https://github.com/LoicPil">GitHub</a>, <a href="https://www.linkedin.com/in/loic-pilette">LinkedIn</a>, <a href="mailto:piletteloic@gmail.com">email</a></span>
+    </footer>
+  </div>
 
-    <div class="project">
-      <h3>Personal server (Raspberry Pi 5)</h3>
-      <p>
-        Self-hosted NAS on a Raspberry Pi 5 (8GB RAM) with a 2TB SSD, running
-        OpenMediaVault for storage management, Immich for photo backup, and a
-        WireGuard VPN for secure remote access.
-      </p>
-      <span class="tag">Linux</span>
-      <span class="tag">Self-hosting</span>
-    </div>
-
-  </main>
-
-  <script src="nav.js"></script>
 </body>
 </html>
